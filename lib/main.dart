@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+/**
+ *
+ * Курсовая работа
+ *
+ */
+
 void main() {
   runApp(const MyApp());
 }
