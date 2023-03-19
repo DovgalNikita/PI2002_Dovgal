@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+/**
+ *
+ * Черновик для мерджа с ветками
+ * здесь проходит вся основная работа над лабами/курсовой
+ *
+ */
+
 void main() {
   runApp(const MyApp());
 }
