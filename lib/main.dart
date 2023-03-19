@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+/**
+ *
+ * Лабораторная работа №3
+ *
+ */
+
 void main() {
   runApp(const MyApp());
 }
