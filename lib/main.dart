@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 /**
  *
- * Черновик для мерджа с ветками
- * здесь проходит вся основная работа над лабами/курсовой
+ * Старт 4 лабы
  *
  */
 
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MyHomePage(title: 'Lab3_Dovgal'));
+        home: const MyHomePage(title: 'Общежития КубГАУ'));
   }
 }
 
@@ -43,70 +42,51 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
-
-  void _resetCounter() {
-    setState(() {
-      _counter = 0;
-    });
-  }
+  final String urlCampus = 'assets/images/campus.jpg';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: Colors.grey[900],
+        centerTitle:true,
+        backgroundColor: Colors.green[700],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Значение инкремента'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              FloatingActionButton(
-                onPressed: _decrementCounter,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                tooltip: 'Increment',
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.remove),
-              ),
-              FloatingActionButton(
-                onPressed: _incrementCounter,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                tooltip: 'Increment',
-                backgroundColor: Colors.red,
-                child: const Icon(Icons.add),
-              ),
-            ]),
-            ElevatedButton(
-              onPressed: _resetCounter,
-              child: Text("Сбросить",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20.0,
-                  )),
-              style: ElevatedButton.styleFrom(
-                elevation: 0.0,
-                shadowColor: Colors.transparent,
-                primary: Colors.grey[50],
-                minimumSize: Size(100.0, 50.0),
-              ),
-            ),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            child: Expanded(child: Image.asset(urlCampus,))
+          ),
+          const Divider(),
+          Row(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Text("Общежитие 20", style: TextStyle(fontSize:20.0,fontWeight: FontWeight.w500)),
+                        Text("Краснодар, ул. Калинина, 13", style: TextStyle(fontSize:15.0))
+                      ],
+                    ),
+                    Row(
+                      children:[
+                        Icon(
+                          Icons.favorite,
+                          color: Colors.pink,
+                          size: 24.0,
+                          semanticLabel: 'Text to announce in accessibility modes',
+                        )
+                    ]
+                    )
+                  ],
+                )
+              ],
+          )
+        ],
       ),
     );
   }
