@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 /**
  *
@@ -40,7 +41,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,8 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView.builder(
         itemBuilder:(context, index){
-          print('Строка: $index');
-          return Text('строка $index', style: TextStyle(fontSize:20),);
+          final num = pow(2, index);
+          print('2 в степени $index = $num');
+          return Text('2 ^ $index = $num', style: TextStyle(fontSize:20),);
         }
       )
     );
