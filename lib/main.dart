@@ -49,14 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         backgroundColor: Colors.green[700],
       ),
-      body: ListView(
-        children: const [
-            Text("0000", style: TextStyle(fontSize: 20)),
-            Divider(),
-            Text("0001", style: TextStyle(fontSize: 20)),
-            Divider(),
-            Text("0010", style: TextStyle(fontSize: 20)),
-        ],
+      body: ListView.builder(
+        itemBuilder:(context, index){
+          print('Строка: $index');
+          return Text('строка $index', style: TextStyle(fontSize:20),);
+        }
       )
     );
   }
