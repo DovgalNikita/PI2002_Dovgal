@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MyHomePage(title: 'Lab5_Dovgal'));
+        home: const MyHomePage(title: 'Lab6_Dovgal'));
   }
 }
 
@@ -40,6 +40,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+    final _inputText1 = TextEditingController();
+    final _inputText2 = TextEditingController();
+    bool _validate1 = false;
+    bool _validate2 = false;
+    double value = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +54,80 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         backgroundColor: Colors.green[700],
       ),
-      body: ListView.builder(
-        itemBuilder:(context, index){
-          final num = pow(2, index);
-          print('2 в степени $index = $num');
-          return Text('2 ^ $index = $num', style: TextStyle(fontSize:20),);
-        }
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20.0),
+            child:
+                Column(
+                  children:[
+                    Text(
+                      "Ширина прямоугольника",
+                      style:TextStyle(fontSize: 20.0),
+                    ),
+                    TextField(
+                      controller: _inputText1,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width:3,color:Colors.greenAccent,
+                          ),
+                        ),
+                        labelText: 'Введите высоту',
+                        errorText:_validate1?'Введите значение':null,
+                      ),
+                    ),
+                ]
+                )
+          ),
+          Container(
+              padding: const EdgeInsets.all(20.0),
+              child:
+              Column(
+                  children:[
+                    Text(
+                      "Высота прямоугольника",
+                      style:TextStyle(fontSize: 20.0),
+                    ),
+                    TextField(
+                      controller: _inputText2,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width:3,color:Colors.greenAccent,
+                          ),
+                        ),
+                        labelText: 'Введите ширину',
+                        errorText:_validate2?'Введите значение':null,
+                      ),
+                    ),
+                  ]
+              )
+          ),
+          ElevatedButton(onPressed: (){
+            setState(() {
+              if(_inputText1.text.isEmpty){
+                _validate1 = true;
+              }else if(_inputText2.text.isEmpty){
+                _validate2 = true;
+              }else{
+                _validate1 = false;
+                _validate2 = false;
+                value = double.parse(_inputText1.text) * double.parse(_inputText2.text);
+              }
+            });
+          }, child: Text("Расчитать")),
+          Container(
+            margin: EdgeInsets.only(top:20.0),
+            child: Text(
+              "Площадь прямоугольника = $value",
+              style:TextStyle(fontSize: 30.0),
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
       )
     );
   }
