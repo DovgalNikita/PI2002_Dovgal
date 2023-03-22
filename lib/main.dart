@@ -108,13 +108,27 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ElevatedButton(onPressed: (){
             setState(() {
-              if(_inputText1.text.isEmpty){
+              if(_inputText1.text.isEmpty && _inputText2.text.isEmpty){
                 _validate1 = true;
-              }else if(_inputText2.text.isEmpty){
                 _validate2 = true;
               }else{
+                _validate1 = true;
+                _validate2 = true;
+              }
+
+              if(_inputText1.text.isEmpty){
+                _validate1 = true;
+              }else{
                 _validate1 = false;
+              }
+
+              if(_inputText2.text.isEmpty){
+                _validate2 = true;
+              }else{
                 _validate2 = false;
+              }
+
+              if (_inputText1.text.isEmpty==false && _inputText2.text.isEmpty==false){
                 value = double.parse(_inputText1.text) * double.parse(_inputText2.text);
               }
             });
