@@ -7,144 +7,81 @@ import 'dart:math';
  * Черновик для мерджа с ветками
  * здесь проходит вся основная работа над лабами/курсовой
 =======
- * Старт 4 лабы
+ * Старт 7 лабы
 >>>>>>> draft
  *
  */
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MainScreen extends StatelessWidget{
+  const MainScreen({Key? key}) : super(key:key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const MyHomePage(title: 'Lab6_Dovgal'));
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(title: const Text("Гавное окно")),
+      body: Center(child: ElevatedButton(
+        onPressed: (){
+          Navigator.push(context,MaterialPageRoute(builder: (context) => const SecondScreen()));
+        },
+        child:const Text("Выбрать")
+      )
+      ),
+    );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-    final _inputText1 = TextEditingController();
-    final _inputText2 = TextEditingController();
-    bool _validate1 = false;
-    bool _validate2 = false;
-    double value = 0;
+class SecondScreen extends StatelessWidget{
+  const SecondScreen({Key? key}) : super(key:key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: true,
-        backgroundColor: Colors.green[700],
-      ),
+      appBar: AppBar(title: const Text("Второе окно")),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(20.0),
-            child:
-                Column(
-                  children:[
-                    Text(
-                      "Ширина прямоугольника",
-                      style:TextStyle(fontSize: 20.0),
-                    ),
-                    TextField(
-                      controller: _inputText1,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            width:3,color:Colors.greenAccent,
-                          ),
-                        ),
-                        labelText: 'Введите высоту',
-                        errorText:_validate1?'Введите значение':null,
-                      ),
-                    ),
-                ]
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                ElevatedButton(
+                    onPressed: (){
+                      const snackBar = SnackBar(
+                        content: Text('Вы выбрали овтет "Да"'),
+                      );
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                    child:const Text("Да")
+                ),
+                ElevatedButton(
+                    onPressed: (){
+                      const snackBar = SnackBar(
+                        content: Text('Вы выбрали овтет "Нет"'),
+                      );
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                    child:const Text("Нет")
                 )
+              ]
+            )
           ),
-          Container(
-              padding: const EdgeInsets.all(20.0),
-              child:
-              Column(
-                  children:[
-                    Text(
-                      "Высота прямоугольника",
-                      style:TextStyle(fontSize: 20.0),
-                    ),
-                    TextField(
-                      controller: _inputText2,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            width:3,color:Colors.greenAccent,
-                          ),
-                        ),
-                        labelText: 'Введите ширину',
-                        errorText:_validate2?'Введите значение':null,
-                      ),
-                    ),
-                  ]
-              )
-          ),
-          ElevatedButton(onPressed: (){
-            setState(() {
-              if(_inputText1.text.isEmpty && _inputText2.text.isEmpty){
-                _validate1 = true;
-                _validate2 = true;
-              }else{
-                _validate1 = true;
-                _validate2 = true;
-              }
-
-              if(_inputText1.text.isEmpty){
-                _validate1 = true;
-              }else{
-                _validate1 = false;
-              }
-
-              if(_inputText2.text.isEmpty){
-                _validate2 = true;
-              }else{
-                _validate2 = false;
-              }
-
-              if (_inputText1.text.isEmpty==false && _inputText2.text.isEmpty==false){
-                value = double.parse(_inputText1.text) * double.parse(_inputText2.text);
-              }
-            });
-          }, child: Text("Расчитать")),
-          Container(
-            margin: EdgeInsets.only(top:20.0),
-            child: Text(
-              "Площадь прямоугольника = $value",
-              style:TextStyle(fontSize: 30.0),
-              textAlign: TextAlign.center,
-            ),
-          )
-        ],
+        ]
       )
     );
   }
-
 }
+
+void main(){
+  runApp(MaterialApp(
+      initialRoute: '/',
+    routes: {
+      '/': (BuildContext context) => const MainScreen(),
+      '/second': (BuildContext context) => const SecondScreen()
+    }
+  ));
+}
+
 
