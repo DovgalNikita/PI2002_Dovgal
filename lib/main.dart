@@ -7,12 +7,14 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:html/parser.dart';
 
+
 Future<List<News>> fetchNews(http.Client client) async {
   final response = await client.get(Uri.parse('https://kubsau.ru/api/getNews.php?key=6df2f5d38d4e16b5a923a6d4873e2ee295d0ac90'));
   Bidi.stripHtmlIfNeeded(response.body);
   String html = parse(response.body).body!.text;
   return compute(parseNews, html);
 }
+
 
 List<News> parseNews(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
@@ -61,8 +63,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class NewsList extends StatelessWidget {
   const NewsList({Key? key, required this.news}): super(key: key);
+
+
+  showAlertDialog(BuildContext context) {
 
   final List<News> news;
 
@@ -140,6 +146,26 @@ class NewsList extends StatelessWidget {
         ),
       ],
     );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
+    });
   }
 }
 
@@ -175,6 +201,7 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context){
@@ -183,3 +210,10 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
