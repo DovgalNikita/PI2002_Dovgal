@@ -1,131 +1,113 @@
-import 'dart:io';
+enum CoffeeType {
+  Espresso,
+  Americano,
+  Latte,
+  Cappuccino,
+}
 
-class Machine {
-  int _coffeBeans;
-  int _milk;
-  int _water;
-  int _cash;
+class Resources {
+  String coffee;
+  int water;
+  int milk;
+  int coffeeBeans;
 
-  Machine(this._coffeBeans, this._milk, this._water, this._cash);
+  Resources({this.coffee = 'black coffee', this.water = 0, this.milk = 0, this.coffeeBeans = 0});
 
-  void readComand() {
-    printComands();
-    String? comand = stdin.readLineSync()?.toLowerCase();
-    while ((comand != 'exit' && comand != 'manipulating')) {
-      print('Enter the correct comand');
-      comand = stdin.readLineSync()?.toLowerCase();
-    }
-    if (comand == 'exit') {
-      return;
-    } else if (comand == 'manipulating') {
-      print('Available comands are: "Make coffee", "Add res"');
-      comand = stdin.readLineSync()?.toLowerCase();
-      while (comand != 'add res' && comand != 'make coffee') {
-        print('Enter the correct comand');
-        comand = stdin.readLineSync()?.toLowerCase();
-      }
-      if (comand == 'add res') {
-        String? res = '';
-        int q = -1;
-        while (res != 'milk' &&
-            res != 'coffee' &&
-            res != 'water' &&
-            res != 'cash') {
-          print('Enter adding resourse (milk, water, coffee, cash)');
-          res = (stdin.readLineSync())?.toLowerCase();
-        }
-        while (q < 0) {
-          print('Enter resource quantity (positive only)');
-          q = int.parse(stdin.readLineSync()!);
-        }
-        switch (res) {
-          case 'milk':
-            _milk += q;
-            print(map);
-            readComand();
-            break;
-          case 'coffee':
-            _coffeBeans += q;
-            print(map);
-            readComand();
-            break;
-          case 'water':
-            _water += q;
-            print(map);
-            readComand();
-            break;
-          case 'cash':
-            _cash += q;
-            print(map);
-            readComand();
-            break;
-        }
-      }
-      if (comand == 'make coffee') {
-        makingCofee();
-      }
-    }
+  void addCoffee(String newCoffee) {
+    coffee = newCoffee;
   }
 
-  set milk(int num) {
-    if (num >= 0) {
-      _milk = num;
-    }
+  void addWater(int additionalWater) {
+    water += additionalWater;
   }
 
-  set coffe(int num) {
-    if (num >= 0) {
-      _coffeBeans = num;
-    }
+  void addMilk(int additionalMilk) {
+    milk += additionalMilk;
   }
 
-  set water(int num) {
-    if (num >= 0) {
-      _water = num;
-    }
+  void addCoffeeBeans(int additionalCoffeeBeans) {
+    coffeeBeans += additionalCoffeeBeans;
   }
 
-  set cash(int num) {
-    if (num >= 0) {
-      _cash = num;
-    }
+  bool checkResources(int waterNeeded, int coffeeBeansNeeded) {
+    return water >= waterNeeded && coffeeBeans >= coffeeBeansNeeded;
+  }
+}
+
+abstract class ICoffee {
+  String getName();
+  int getWaterNeeded();
+  int getCoffeeBeansNeeded();
+}
+
+class Espresso implements ICoffee {
+  @override
+  String getName() => 'Espresso';
+
+  @override
+  int getWaterNeeded() => 30;
+
+  @override
+  int getCoffeeBeansNeeded() => 20;
+}
+
+class Americano implements ICoffee {
+  @override
+  String getName() => 'Americano';
+
+  @override
+  int getWaterNeeded() => 100;
+
+  @override
+  int getCoffeeBeansNeeded() => 20;
+}
+
+class Latte implements ICoffee {
+  @override
+  String getName() => 'Latte';
+
+  @override
+  int getWaterNeeded() => 200;
+
+  @override
+  int getCoffeeBeansNeeded() => 30;
+}
+
+class Cappuccino implements ICoffee {
+  @override
+  String getName() => 'Cappuccino';
+
+  @override
+  int getWaterNeeded() => 150;
+
+  @override
+  int getCoffeeBeansNeeded() => 25;
+}
+
+class CoffeeMachine {
+  final Resources _resources;
+
+  CoffeeMachine({Resources resources}) {
+    _resources = resources ?? Resources();
   }
 
-  bool isAvailableRes() {
-    if (_coffeBeans >= 50 && _water >= 100) {
-      return true;
-    }
-    return false;
-  }
-
-  void makingCofee() {
-    if (isAvailableRes()) {
-      print('Your coffe is being prepared \n-------------------------------');
-      subatractRes();
-      print(map);
-      readComand();
+  void makeCoffee(ICoffee coffee) {
+    if (_resources.checkResources(coffee.getWaterNeeded(), coffee.getCoffeeBeansNeeded())) {
+      _resources.addCoffee(coffee.getName());
+      _resources.addWater(-coffee.getWaterNeeded());
+      _resources.addCoffeeBeans(-coffee.getCoffeeBeansNeeded());
+      print('Your ${coffee.getName()} is ready!');
     } else {
-      print(
-          'This operation requires: Coffee beans-50g, water-100ml.\nWe have ${_coffeBeans}g cofee and ${_water}ml water');
-      readComand();
+      print('Not enough resources to make ${coffee.getName()}');
     }
   }
+}
 
-  void subatractRes() {
-    _coffeBeans -= 50;
-    _water -= 100;
-  }
-
-  Map<String, dynamic> get map {
-    return {
-      "coffee": _coffeBeans,
-      "milk": _milk,
-      "water": _water,
-      "cash": _cash,
-    };
-  }
-
-  void printComands() {
-    print('Available commands are: "Manipulating", "Exit"');
-  }
+void main() {
+  var resources = Resources(water: 1000, milk: 500,);
+  var coffeeMachine = CoffeeMachine(resources: resources);
+  coffeeMachine.makeCoffee(Espresso());
+  coffeeMachine.makeCoffee(Americano());
+  coffeeMachine.makeCoffee(Latte());
+  coffeeMachine.makeCoffee(Cappuccino());
 }
